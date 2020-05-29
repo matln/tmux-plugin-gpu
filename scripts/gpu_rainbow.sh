@@ -15,7 +15,6 @@ source "$CURRENT_DIR/helpers.sh"
 bar_bg_color=$(get_tmux_option "@gpu_bar_bg" "#21222C")
 
 # Default display all gpus
-# nvidia-smi -q -d MEMORY | grep Used | awk 'NR%2==1{print $3}'
 gpu_utilization=$(nvidia-smi -q -d UTILIZATION | grep Gpu | awk '{print $3}')
 gpu_utilization=(${gpu_utilization//\n/ })
 gpu_num=${#gpu_utilization[@]}

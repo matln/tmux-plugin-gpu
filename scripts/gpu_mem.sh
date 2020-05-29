@@ -12,7 +12,7 @@ LC_NUMERIC=C
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source "$CURRENT_DIR/helpers.sh"
 
-bar_bg_color=$(get_tmux_option "@gpu_bar_bg" "#21222C")
+bar_bg_color=$(get_tmux_option "@gpu_mem_bar_bg" "#21222C")
 
 # Default display all gpus
 gpu_memory_used_percent=$(nvidia-smi -q -d MEMORY | grep -E 'Total|Used' | \
