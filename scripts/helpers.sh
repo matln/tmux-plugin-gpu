@@ -15,3 +15,15 @@ get_tmux_option() {
 fcomp() {
   awk -v n1="$1" -v n2="$2" 'BEGIN {if (n1<=n2) exit 0; exit 1}'
 }
+
+# Reference: https://github.com/soyuka/tmux-current-pane-hostname/blob/master/scripts/shared.sh
+get_ssh_cmd() {
+	pgrep -flaP $(tmux display-message -p "#{pane_pid}") | sed -E 's/^[0-9]*[[:blank:]]*//'
+}
+
+ssh_connected() {
+	# Get current pane command
+	local cmd=$(tmux display-message -p "#{pane_current_command}")
+
+	[ $cmd = "ssh" ] || [ $cmd = "sshpass" ]
+}

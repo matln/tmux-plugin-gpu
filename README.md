@@ -1,5 +1,5 @@
 # tmux-plugin-gpu
-Show gpu utilization rate &amp; gpu memory used percent by histogram
+Show gpu utilization rate &amp; gpu memory used percent by histogram. It can be adjusted with the change of the hostname (connect to other nodes via `ssh`).
 
 Default show all GPUs ( not more than 6 )
 
@@ -16,6 +16,8 @@ Default show all GPUs ( not more than 6 )
   ```
 
 * awk
+
+* [SSH login without password](https://www.ibm.com/support/pages/configuring-ssh-login-without-password)
 
 ## Installation
 

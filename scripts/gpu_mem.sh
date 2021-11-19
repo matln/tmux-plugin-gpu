@@ -15,8 +15,15 @@ source "$CURRENT_DIR/helpers.sh"
 bar_bg_color=$(get_tmux_option "@gpu_mem_bar_bg" "#21222C")
 
 # Default display all gpus
-gpu_memory_used_percent=$(nvidia-smi -q -d MEMORY | grep -E 'Total|Used' | \
-  awk '{if(NR%4==1) total[i++]=$3; if(NR%4==2) used[j++]=$3}END{for(i in total)print int(used[i]/total[i]*100)}')
+if ssh_connected; then
+	ssh_cmd=$(get_ssh_cmd)
+	gpu_memory_used_percent=$(${ssh_cmd} "nvidia-smi -q -d MEMORY" | grep -E 'Total|Used' | \
+	  awk '{if(NR%4==1) total[i++]=$3; if(NR%4==2) used[j++]=$3}END{for(i in total)print int(used[i]/total[i]*100)}')
+else
+	gpu_memory_used_percent=$(nvidia-smi -q -d MEMORY | grep -E 'Total|Used' | \
+	  awk '{if(NR%4==1) total[i++]=$3; if(NR%4==2) used[j++]=$3}END{for(i in total)print int(used[i]/total[i]*100)}')
+fi
+
 gpu_mem=(${gpu_memory_used_percent})
 gpu_num=${#gpu_mem[@]}
 
@@ -30,7 +37,7 @@ gpu_mem_medium_threshold=$(get_tmux_option "@gpu_mem_medium_threshold" "50")
 gpu_mem_stress_threshold=$(get_tmux_option "@gpu_mem_stress_threshold" "90")
 
 # 256-color list: https://www.cnblogs.com/guochaoxxl/p/7399886.html
-base_colours=(226 191 156 121 86 51)
+base_colours=(154 226 191 156 121 86 51 159)
 
 get_bar_color(){
   local gpu_mem_used=$1

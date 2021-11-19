@@ -15,7 +15,12 @@ source "$CURRENT_DIR/helpers.sh"
 bar_bg_color=$(get_tmux_option "@gpu_bar_bg" "#21222C")
 
 # Default display all gpus
-gpu_utilization=$(nvidia-smi -q -d UTILIZATION | grep Gpu | awk '{print $3}')
+if ssh_connected; then
+	ssh_cmd=$(get_ssh_cmd)
+	gpu_utilization=$(${ssh_cmd} "nvidia-smi -q -d UTILIZATION" | grep Gpu | awk '{print $3}')
+else
+	gpu_utilization=$(nvidia-smi -q -d UTILIZATION | grep Gpu | awk '{print $3}')
+fi
 gpu_utilization=(${gpu_utilization//\n/ })
 gpu_num=${#gpu_utilization[@]}
 
@@ -29,7 +34,7 @@ gpu_medium_threshold=$(get_tmux_option "@gpu_medium_threshold" "10")
 gpu_stress_threshold=$(get_tmux_option "@gpu_stress_threshold" "99")
 
 # 256-color list: https://www.cnblogs.com/guochaoxxl/p/7399886.html
-base_colours=(226 191 156 121 86 51)
+base_colours=(154 226 191 156 121 86 51 159)
 
 get_bar_color(){
   local gpu_used=$1
