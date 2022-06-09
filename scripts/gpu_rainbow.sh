@@ -17,7 +17,7 @@ bar_bg_color=$(get_tmux_option "@gpu_bar_bg" "#21222C")
 # Default display all gpus
 if ssh_connected; then
 	ssh_cmd=$(get_ssh_cmd)
-	gpu_utilization=$(${ssh_cmd} "nvidia-smi -q -d UTILIZATION" | grep Gpu | awk '{print $3}')
+	gpu_utilization=$(${ssh_cmd} "nvidia-smi -q -d UTILIZATION | grep Gpu" | awk '{print $3}')
 else
 	gpu_utilization=$(nvidia-smi -q -d UTILIZATION | grep Gpu | awk '{print $3}')
 fi

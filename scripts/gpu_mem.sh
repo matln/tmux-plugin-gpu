@@ -17,7 +17,7 @@ bar_bg_color=$(get_tmux_option "@gpu_mem_bar_bg" "#21222C")
 # Default display all gpus
 if ssh_connected; then
 	ssh_cmd=$(get_ssh_cmd)
-	gpu_memory_used_percent=$(${ssh_cmd} "nvidia-smi -q -d MEMORY" | grep -E 'Total|Used' | \
+	gpu_memory_used_percent=$(${ssh_cmd} "nvidia-smi -q -d MEMORY | grep -E 'Total|Used'" | \
 	  awk '{if(NR%4==1) total[i++]=$3; if(NR%4==2) used[j++]=$3}END{for(i in total)print int(used[i]/total[i]*100)}')
 else
 	gpu_memory_used_percent=$(nvidia-smi -q -d MEMORY | grep -E 'Total|Used' | \
